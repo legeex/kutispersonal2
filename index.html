@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Václav Kutiš – propojení řemeslníků, firem a obchodních partnerů v regionu DACH. Práce, kapacity i B2B spolupráce v Německu, Rakousku a Švýcarsku.">
+  <title>Václav Kutiš | Práce a spolupráce v regionu DACH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">
+        <span class="logo__name">Václav Kutiš</span>
+        <span class="logo__tagline" data-i18n="logo.tagline">DACH · Propojení</span>
+      </a>
+      <div class="header__actions">
+        <div class="lang-switch" role="group" aria-label="Jazyk">
+          <button type="button" class="lang-switch__btn lang-switch__btn--active" data-lang="cs" aria-pressed="true">CS</button>
+          <button type="button" class="lang-switch__btn" data-lang="de" aria-pressed="false">DE</button>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-label="Otevřít menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="#pro-uchazece" data-i18n="nav.forCandidates">Pro uchazeče</a>
+        <a href="#pro-firmy" data-i18n="nav.forCompanies">Pro firmy</a>
+        <a href="#jak-to-funguje" data-i18n="nav.howItWorks">Jak to funguje</a>
+        <a href="#kontakt" class="nav__cta" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <span class="hero__badge" data-i18n="hero.badge" aria-hidden="true"></span>
+        <p class="hero__claim" data-i18n="hero.claim">Pomáhám lidem a firmám navázat přímou spolupráci v regionu DACH.</p>
+        <h1 class="hero__title" data-i18n="hero.title">Práce a obchodní příležitosti v Německu, Rakousku a Švýcarsku</h1>
+        <p class="hero__subtitle" data-i18n="hero.subtitle">
+          Propojuji řemeslníky, technické pracovníky, OSVČ i odborné týmy s firmami v regionu DACH.
+          Pomáhám firmám najít vhodné lidi a kapacity pro projekty i vhodné firmy pro obchodní
+          nebo subdodavatelskou spolupráci.
+        </p>
+        <div class="hero__cta">
+          <a href="#kontakt" class="btn btn--primary" data-form="candidate" data-i18n="hero.ctaCandidate">Hledám práci / zakázku</a>
+          <a href="#kontakt" class="btn btn--outline" data-form="company" data-i18n="hero.ctaCompany">Hledám kapacity / partnery</a>
+        </div>
+        <div class="hero__regions">
+          <span class="region-badge" data-i18n="hero.regionDE">🇩🇪 Německo</span>
+          <span class="region-badge" data-i18n="hero.regionAT">🇦🇹 Rakousko</span>
+          <span class="region-badge" data-i18n="hero.regionCH">🇨🇭 Švýcarsko</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust">
+      <div class="container">
+        <ul class="trust__list">
+          <li data-i18n="trust.t1">Přímá spolupráce mezi kandidátem a firmou</li>
+          <li data-i18n="trust.t2">Propojení firem pro obchodní spolupráci v DACH</li>
+          <li data-i18n="trust.t3">Podpora při navázání spolupráce</li>
+          <li data-i18n="trust.t4">Transparentní propojení obou stran</li>
+          <li data-i18n="trust.t5">Region DACH – DE, AT, CH</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="service-box" id="rundum-service">
+      <div class="container">
+        <div class="service-box__inner">
+          <div class="service-box__intro">
+            <span class="section__label" data-i18n="service.label">Kompletní servis</span>
+            <h2 class="section__title" data-i18n="service.title">Vy řídíte projekt – já zařídím zbytek</h2>
+            <p class="section__text" data-i18n="service.text">
+              Text služby pro německou verzi.
+            </p>
+          </div>
+          <ul class="service-box__list">
+            <li data-i18n="service.i1">Položka 1</li>
+            <li data-i18n="service.i2">Položka 2</li>
+            <li data-i18n="service.i3">Položka 3</li>
+            <li data-i18n="service.i4">Položka 4</li>
+            <li data-i18n="service.i5">Položka 5</li>
+          </ul>
+          <p class="service-box__note" data-i18n="service.note">Poznámka</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pro-uchazece">
+      <div class="container">
+        <div class="section__grid">
+          <div class="section__intro">
+            <span class="section__label" data-i18n="candidates.label">Pro uchazeče</span>
+            <h2 class="section__title" data-i18n="candidates.title">Vhodná pracovní nebo obchodní příležitost</h2>
+            <p class="section__text" data-i18n="candidates.text">
+              Pomáhám jednotlivcům, řemeslníkům, montérům, OSVČ i menším týmům najít vhodné pracovní
+              nebo obchodní příležitosti u firem v Německu, Rakousku a Švýcarsku. Spolupráce může být
+              podle konkrétní situace formou zaměstnání, OSVČ, subdodávky nebo jiné přímé dohody s firmou.
+            </p>
+            <a href="#kontakt" class="btn btn--primary btn--sm" data-form="candidate" data-i18n="candidates.cta">Kontaktovat jako uchazeč</a>
+          </div>
+          <div class="prof-grid" data-i18n-aria="candidates.profAria" aria-label="Oblasti a profese">
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof1">Stavebnictví</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 18l9-9 9 9M12 3v6"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof2">Pokrývači</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h16v12H4zM8 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof3">Klempíři</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4l-4 8h6l-4 8"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof4">Instalatéři / topenáři</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L4 14h7l-1 8 10-14h-7l0-6z"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof5">Elektrikáři</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2 2 0 0 1-2.83-2.83l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof6">Montéři</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 16c1.5-3 4-5 8-5M12 4v4M6 20h12"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof7">Svářeči</span>
+            </article>
+            <article class="prof-card">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="15" r="4"/><path d="M12 15h8M16 11v8"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof8">Zámečníci</span>
+            </article>
+            <article class="prof-card prof-card--accent">
+              <span class="prof-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+              </span>
+              <span class="prof-card__label" data-i18n="candidates.prof9">Další technické profese</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="pro-firmy">
+      <div class="container">
+        <div class="section__split">
+          <div>
+            <span class="section__label" data-i18n="companies.label">Pro firmy</span>
+            <h2 class="section__title" data-i18n="companies.title">Kapacity, partneři i obchodní spolupráce</h2>
+          </div>
+          <div>
+            <p class="section__text section__text--large" data-i18n="companies.text">
+              Firmám pomáhám najít vhodné kandidáty, řemeslníky, OSVČ nebo subdodavatelské kapacity
+              pro konkrétní projekty. Pomáhám také firmám najít vhodné firmy v regionu DACH –
+              například pro subdodávku, společný projekt nebo dlouhodobou obchodní spolupráci.
+              Cílem je férové a transparentní propojení obou stran.
+            </p>
+            <ul class="feature-list">
+              <li data-i18n="companies.f1">Propojuji kandidáty s firmami v regionu DACH</li>
+              <li data-i18n="companies.f2">Pomáhám firmám navázat přímou spolupráci s jinými firmami v regionu</li>
+              <li data-i18n="companies.f3">Pomáhám s komunikací, prvotním výběrem a propojením</li>
+              <li data-i18n="companies.f4">Možnost práce na zaměstnanecký poměr nebo obchodní spolupráce dle konkrétní nabídky</li>
+              <li data-i18n="companies.f5">Každá spolupráce probíhá přímo mezi oběma stranami</li>
+              <li class="feature-list__item--de" data-i18n="companies.f6"></li>
+              <li class="feature-list__item--de" data-i18n="companies.f7"></li>
+            </ul>
+            <a href="#kontakt" class="btn btn--primary btn--sm" data-form="company" data-i18n="companies.cta">Kontaktovat jako firma</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="jak-to-funguje">
+      <div class="container">
+        <div class="section__header-center">
+          <span class="section__label" data-i18n="process.label">Proces</span>
+          <h2 class="section__title" data-i18n="process.title">Jak to funguje</h2>
+        </div>
+        <div class="process-tabs">
+          <button class="process-tab process-tab--active" data-tab="candidate" data-i18n="process.tabCandidate">Pro uchazeče</button>
+          <button class="process-tab" data-tab="company" data-i18n="process.tabCompany">Pro firmy</button>
+        </div>
+        <div class="process-panel process-panel--active" id="process-candidate">
+          <ol class="timeline">
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>1</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.c1title">Kontakt</h3>
+                <p data-i18n="process.c1text">Vyplníte krátký kontaktní formulář</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>2</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.c2title">Profil</h3>
+                <p data-i18n="process.c2text">Popíšete své zkušenosti, profesi, jazykové znalosti a dostupnost</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>3</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.c3title">Výběr</h3>
+                <p data-i18n="process.c3text">Společně vyhodnotíme vhodné možnosti</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>4</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.c4title">Propojení</h3>
+                <p data-i18n="process.c4text">Pokud existuje vhodná nabídka, propojím vás přímo s firmou</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>5</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.c5title">Dohoda</h3>
+                <p data-i18n="process.c5text">Podmínky spolupráce si vždy potvrzujete přímo s danou firmou</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <div class="process-panel" id="process-company">
+          <ol class="timeline">
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>1</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.co1title">Poptávka</h3>
+                <p data-i18n="process.co1text">Firma popíše, koho nebo jakou spolupráci hledá</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>2</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.co2title">Analýza</h3>
+                <p data-i18n="process.co2text">Vyhodnotím požadavky, termín, lokalitu a typ spolupráce</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>3</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.co3title">Výběr</h3>
+                <p data-i18n="process.co3text">Najdu vhodné kandidáty, kapacity nebo firmy v regionu DACH</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>4</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.co4title">Propojení</h3>
+                <p data-i18n="process.co4text">Propojím obě strany</p>
+              </div>
+            </li>
+            <li class="timeline__step">
+              <div class="timeline__marker"><span>5</span></div>
+              <div class="timeline__card">
+                <h3 class="timeline__title" data-i18n="process.co5title">Dohoda</h3>
+                <p data-i18n="process.co5text">Spolupráce probíhá na základě přímé dohody mezi firmami, kandidátem nebo dodavatelem</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--contact" id="kontakt">
+      <div class="container">
+        <div class="contact__grid">
+          <div class="contact__info">
+            <span class="section__label" data-i18n="contact.label">Kontakt</span>
+            <h2 class="section__title" data-i18n="contact.title">Napište mi</h2>
+            <p class="section__text" data-i18n="contact.text">
+              Vyberte, zda hledáte pracovní nebo obchodní příležitost, nebo zda vaše firma
+              potřebuje vhodné kapacity či partnera v regionu DACH. Ozvu se vám co nejdříve.
+            </p>
+            <p class="contact__direct">
+              <span data-i18n="contact.emailDirect">Nebo napište přímo:</span>
+              <a href="#" id="contactEmailLink" class="contact__email-link"></a>
+            </p>
+          </div>
+          <div class="form-wrapper">
+            <div class="form-tabs">
+              <button class="form-tab form-tab--active" data-form="candidate" type="button" data-i18n="contact.tabCandidate">
+                Hledám práci / zakázku
+              </button>
+              <button class="form-tab" data-form="company" type="button" data-i18n="contact.tabCompany">
+                Hledám kapacity / partnery
+              </button>
+            </div>
+
+            <form class="contact-form contact-form--active" id="form-candidate" novalidate>
+              <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="c-name"><span data-i18n="form.cName">Jméno a příjmení</span> <span class="required">*</span></label>
+                  <input type="text" id="c-name" name="name" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label for="c-email"><span data-i18n="form.cEmail">E-mail</span> <span class="required">*</span></label>
+                  <input type="email" id="c-email" name="email" required autocomplete="email">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="c-phone" data-i18n="form.cPhone">Telefon</label>
+                  <input type="tel" id="c-phone" name="phone" autocomplete="tel">
+                </div>
+                <div class="form-group">
+                  <label for="c-profession"><span data-i18n="form.cProfession">Profese</span> <span class="required">*</span></label>
+                  <input type="text" id="c-profession" name="profession" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="c-experience" data-i18n="form.cExperience">Praxe</label>
+                <textarea id="c-experience" name="experience" rows="2" data-i18n-placeholder="form.cExperiencePh" placeholder="Roky praxe, reference, certifikace…"></textarea>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="c-languages" data-i18n="form.cLanguages">Jazykové znalosti</label>
+                  <input type="text" id="c-languages" name="languages" data-i18n-placeholder="form.cLanguagesPh" placeholder="např. němčina B2, angličtina A2">
+                </div>
+                <div class="form-group">
+                  <label for="c-country" data-i18n="form.cCountry">Preferovaná země</label>
+                  <select id="c-country" name="country">
+                    <option value="" data-i18n-option="form.select">Vyberte</option>
+                    <option value="de" data-i18n-option="form.countryDE">Německo</option>
+                    <option value="at" data-i18n-option="form.countryAT">Rakousko</option>
+                    <option value="ch" data-i18n-option="form.countryCH">Švýcarsko</option>
+                    <option value="any" data-i18n-option="form.countryAny">Více zemí / flexibilně</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="c-start" data-i18n="form.cStart">Od kdy můžete začít</label>
+                  <input type="text" id="c-start" name="start" data-i18n-placeholder="form.cStartPh" placeholder="např. ihned, od 1. 6. 2026">
+                </div>
+                <div class="form-group">
+                  <label for="c-cooperation" data-i18n="form.cCooperation">Forma spolupráce</label>
+                  <select id="c-cooperation" name="cooperation">
+                    <option value="" data-i18n-option="form.select">Vyberte</option>
+                    <option value="employment" data-i18n-option="form.coopEmployment">Zaměstnání</option>
+                    <option value="osvc" data-i18n-option="form.coopOsvc">OSVČ</option>
+                    <option value="subcontract" data-i18n-option="form.coopSub">Subdodávka</option>
+                    <option value="unknown" data-i18n-option="form.coopUnknown">Nevím</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="c-note" data-i18n="form.cNote">Poznámka</label>
+                <textarea id="c-note" name="note" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full" data-i18n="contact.submitCandidate">Odeslat žádost</button>
+            </form>
+
+            <form class="contact-form" id="form-company" novalidate>
+              <input type="text" name="_gotcha" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-company"><span data-i18n="form.fCompany">Název firmy</span> <span class="required">*</span></label>
+                  <input type="text" id="f-company" name="company" required>
+                </div>
+                <div class="form-group">
+                  <label for="f-contact"><span data-i18n="form.fContact">Kontaktní osoba</span> <span class="required">*</span></label>
+                  <input type="text" id="f-contact" name="contact" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-email"><span data-i18n="form.fEmail">E-mail</span> <span class="required">*</span></label>
+                  <input type="email" id="f-email" name="email" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                  <label for="f-phone" data-i18n="form.fPhone">Telefon</label>
+                  <input type="tel" id="f-phone" name="phone" autocomplete="tel">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-country" data-i18n="form.fCountry">Země</label>
+                  <select id="f-country" name="country">
+                    <option value="" data-i18n-option="form.select">Vyberte</option>
+                    <option value="de" data-i18n-option="form.countryDE">Německo</option>
+                    <option value="at" data-i18n-option="form.countryAT">Rakousko</option>
+                    <option value="ch" data-i18n-option="form.countryCH">Švýcarsko</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="f-profession"><span data-i18n="form.fProfession">Hledáte (kapacity / partnera)</span> <span class="required">*</span></label>
+                  <input type="text" id="f-profession" name="profession" required data-i18n-placeholder="form.fProfessionPh" placeholder="např. elektrikáře, subdodavatele, stavební firmu…">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-location" data-i18n="form.fLocation">Lokalita projektu</label>
+                  <input type="text" id="f-location" name="location">
+                </div>
+                <div class="form-group">
+                  <label for="f-start" data-i18n="form.fStart">Termín nástupu</label>
+                  <input type="text" id="f-start" name="start">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="f-cooperation" data-i18n="form.fCooperation">Typ spolupráce</label>
+                <input type="text" id="f-cooperation" name="cooperation" data-i18n-placeholder="form.fCooperationPh" placeholder="zaměstnání, OSVČ, subdodávka, B2B spolupráce…">
+              </div>
+              <div class="form-group">
+                <label for="f-note" data-i18n="form.fNote">Poznámka</label>
+                <textarea id="f-note" name="note" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full" data-i18n="contact.submitCompany">Odeslat poptávku</button>
+            </form>
+
+            <div class="form-feedback form-feedback--error" id="formError" hidden>
+              <p data-i18n="contact.errorText">Odeslání se nezdařilo. Zkuste to prosím znovu.</p>
+            </div>
+
+            <div class="form-feedback form-feedback--success form-success" id="formSuccess" hidden>
+              <div class="form-success__icon" aria-hidden="true">✓</div>
+              <h3 class="form-success__title" data-i18n="contact.successTitle">Odesláno!</h3>
+              <p class="form-success__text" data-i18n="contact.successText">Děkuji, zpráva mi dorazila. Ozvu se vám co nejdříve.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="legal">
+      <div class="container">
+        <p class="legal__text" data-i18n-html="legal.text">
+          <strong>Právní upozornění:</strong>
+          Václav Kutiš neposkytuje právní, daňové ani personální poradenství. Web slouží k prezentaci
+          služeb v oblasti zprostředkování kontaktů a podpory při navazování pracovních nebo obchodních
+          příležitostí. Konkrétní forma spolupráce musí být vždy nastavena individuálně podle platných
+          právních předpisů dané země.
+        </p>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="logo__name">Václav Kutiš</span>
+        <p data-i18n="footer.tagline">Pomáhám lidem a firmám navázat přímou spolupráci v regionu DACH.</p>
+      </div>
+      <nav class="footer__nav">
+        <a href="#pro-uchazece" data-i18n="nav.forCandidates">Pro uchazeče</a>
+        <a href="#pro-firmy" data-i18n="nav.forCompanies">Pro firmy</a>
+        <a href="#jak-to-funguje" data-i18n="nav.howItWorks">Jak to funguje</a>
+        <a href="#kontakt" data-i18n="nav.contact">Kontakt</a>
+      </nav>
+      <p class="footer__copy">&copy; <span id="year"></span> Václav Kutiš. <span data-i18n="footer.rights">Všechna práva vyhrazena.</span></p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
