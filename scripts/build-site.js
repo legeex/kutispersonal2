@@ -338,20 +338,57 @@ function buildDe() {
   PROFESSIONS.forEach((p) => write(`${ROOT}/de/berufe/${p.de.slug}.html`, professionPage("de", p)));
 }
 
+function cleanPath(p) {
+  return String(p).replace(/\.html$/i, "").replace(/\/$/, "") || "/";
+}
+
 function rootFiles() {
-  write(`${ROOT}/index.html`, `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Václav Kutiš</title><script>!function(){var l=(navigator.language||navigator.userLanguage||"").toLowerCase();location.replace(l.indexOf("de")===0?"/de/":"/cs/")}();</script></head><body><p>Redirecting… <a href="/de/">Deutsch</a> · <a href="/cs/">Čeština</a></p></body></html>`);
+  write(
+    `${ROOT}/index.html`,
+    `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Václav Kutiš</title><script>!function(){var l=(navigator.language||navigator.userLanguage||"").toLowerCase();location.replace(l.indexOf("de")===0?"/de":"/cs")}();</script></head><body><p>Redirecting… <a href="/de">Deutsch</a> · <a href="/cs">Čeština</a></p></body></html>`
+  );
   write(`${ROOT}/robots.txt`, `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
   const urls = [
-    "/cs/", "/de/",
-    ...["pro-firmy.html", "pro-pracovniky.html", "pro-subdodavatele.html", "jak-spoluprace-funguje.html", "o-nas.html", "reference.html", "faq.html", "kontakt.html", "ochrana-osobnich-udaju.html", "cookies.html", "pravni-upozorneni.html"].map((x) => `/cs/${x}`),
-    "/cs/profese/",
-    ...PROFESSIONS.map((p) => `/cs/profese/${p.cs.slug}.html`),
-    ...["fuer-unternehmen.html", "fuer-fachkraefte.html", "fuer-nachunternehmer.html", "so-funktioniert-es.html", "ueber-uns.html", "referenzen.html", "faq.html", "kontakt.html", "impressum.html", "datenschutz.html", "cookies.html"].map((x) => `/de/${x}`),
-    "/de/berufe/",
-    ...PROFESSIONS.map((p) => `/de/berufe/${p.de.slug}.html`),
-  ];
-  write(`${ROOT}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${SITE}${url}</loc></url>`).join("\n")}\n</urlset>\n`);
+    "/cs",
+    "/de",
+    ...[
+      "pro-firmy",
+      "pro-pracovniky",
+      "pro-subdodavatele",
+      "jak-spoluprace-funguje",
+      "o-nas",
+      "reference",
+      "faq",
+      "kontakt",
+      "ochrana-osobnich-udaju",
+      "cookies",
+      "pravni-upozorneni",
+    ].map((x) => `/cs/${x}`),
+    "/cs/profese",
+    ...PROFESSIONS.map((p) => `/cs/profese/${p.cs.slug}`),
+    ...[
+      "fuer-unternehmen",
+      "fuer-fachkraefte",
+      "fuer-nachunternehmer",
+      "so-funktioniert-es",
+      "ueber-uns",
+      "referenzen",
+      "faq",
+      "kontakt",
+      "impressum",
+      "datenschutz",
+      "cookies",
+    ].map((x) => `/de/${x}`),
+    "/de/berufe",
+    ...PROFESSIONS.map((p) => `/de/berufe/${p.de.slug}`),
+  ].map(cleanPath);
+  write(
+    `${ROOT}/sitemap.xml`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+      .map((url) => `  <url><loc>${SITE}${url}</loc></url>`)
+      .join("\n")}\n</urlset>\n`
+  );
 }
 
 buildCs();

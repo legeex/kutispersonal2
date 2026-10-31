@@ -13,81 +13,81 @@
 
   /* ---------- Language map (CZ ↔ DE) ---------- */
   const LANG_MAP = {
-    home: { cs: "/cs/", de: "/de/" },
-    companies: { cs: "/cs/pro-firmy.html", de: "/de/fuer-unternehmen.html" },
-    workers: { cs: "/cs/pro-pracovniky.html", de: "/de/fuer-fachkraefte.html" },
+    home: { cs: "/cs", de: "/de" },
+    companies: { cs: "/cs/pro-firmy", de: "/de/fuer-unternehmen" },
+    workers: { cs: "/cs/pro-pracovniky", de: "/de/fuer-fachkraefte" },
     subcontractors: {
-      cs: "/cs/pro-subdodavatele.html",
-      de: "/de/fuer-nachunternehmer.html",
+      cs: "/cs/pro-subdodavatele",
+      de: "/de/fuer-nachunternehmer",
     },
-    professions: { cs: "/cs/profese/", de: "/de/berufe/" },
+    professions: { cs: "/cs/profese", de: "/de/berufe" },
     process: {
-      cs: "/cs/jak-spoluprace-funguje.html",
-      de: "/de/so-funktioniert-es.html",
+      cs: "/cs/jak-spoluprace-funguje",
+      de: "/de/so-funktioniert-es",
     },
-    about: { cs: "/cs/o-nas.html", de: "/de/ueber-uns.html" },
-    references: { cs: "/cs/reference.html", de: "/de/referenzen.html" },
-    faq: { cs: "/cs/faq.html", de: "/de/faq.html" },
-    contact: { cs: "/cs/kontakt.html", de: "/de/kontakt.html" },
+    about: { cs: "/cs/o-nas", de: "/de/ueber-uns" },
+    references: { cs: "/cs/reference", de: "/de/referenzen" },
+    faq: { cs: "/cs/faq", de: "/de/faq" },
+    contact: { cs: "/cs/kontakt", de: "/de/kontakt" },
     privacy: {
-      cs: "/cs/ochrana-osobnich-udaju.html",
-      de: "/de/datenschutz.html",
+      cs: "/cs/ochrana-osobnich-udaju",
+      de: "/de/datenschutz",
     },
-    cookies: { cs: "/cs/cookies.html", de: "/de/cookies.html" },
-    legal: { cs: "/cs/pravni-upozorneni.html", de: "/de/impressum.html" },
+    cookies: { cs: "/cs/cookies", de: "/de/cookies" },
+    legal: { cs: "/cs/pravni-upozorneni", de: "/de/impressum" },
     pokryvaci: {
-      cs: "/cs/profese/pokryvaci.html",
-      de: "/de/berufe/dachdecker.html",
+      cs: "/cs/profese/pokryvaci",
+      de: "/de/berufe/dachdecker",
     },
     klempiri: {
-      cs: "/cs/profese/klempiri.html",
-      de: "/de/berufe/klempner.html",
+      cs: "/cs/profese/klempiri",
+      de: "/de/berufe/klempner",
     },
-    tesari: { cs: "/cs/profese/tesari.html", de: "/de/berufe/zimmerer.html" },
+    tesari: { cs: "/cs/profese/tesari", de: "/de/berufe/zimmerer" },
     instalateri: {
-      cs: "/cs/profese/instalateri.html",
-      de: "/de/berufe/installateure.html",
+      cs: "/cs/profese/instalateri",
+      de: "/de/berufe/installateure",
     },
     elektrikari: {
-      cs: "/cs/profese/elektrikari.html",
-      de: "/de/berufe/elektriker.html",
+      cs: "/cs/profese/elektrikari",
+      de: "/de/berufe/elektriker",
     },
     izolateri: {
-      cs: "/cs/profese/izolateri.html",
-      de: "/de/berufe/daemmer.html",
+      cs: "/cs/profese/izolateri",
+      de: "/de/berufe/daemmer",
     },
     svarci: {
-      cs: "/cs/profese/svarci.html",
-      de: "/de/berufe/schweisser.html",
+      cs: "/cs/profese/svarci",
+      de: "/de/berufe/schweisser",
     },
     zamecnici: {
-      cs: "/cs/profese/zamecnici.html",
-      de: "/de/berufe/schlosser.html",
+      cs: "/cs/profese/zamecnici",
+      de: "/de/berufe/schlosser",
     },
     lesenari: {
-      cs: "/cs/profese/lesenari.html",
-      de: "/de/berufe/geruestbauer.html",
+      cs: "/cs/profese/lesenari",
+      de: "/de/berufe/geruestbauer",
     },
-    zednici: { cs: "/cs/profese/zednici.html", de: "/de/berufe/maurer.html" },
+    zednici: { cs: "/cs/profese/zednici", de: "/de/berufe/maurer" },
     sadrokartonari: {
-      cs: "/cs/profese/sadrokartonari.html",
-      de: "/de/berufe/trockenbauer.html",
+      cs: "/cs/profese/sadrokartonari",
+      de: "/de/berufe/trockenbauer",
     },
-    maliri: { cs: "/cs/profese/maliri.html", de: "/de/berufe/maler.html" },
+    maliri: { cs: "/cs/profese/maliri", de: "/de/berufe/maler" },
     monteri: {
-      cs: "/cs/profese/monteri.html",
-      de: "/de/berufe/monteure.html",
+      cs: "/cs/profese/monteri",
+      de: "/de/berufe/monteure",
     },
     pomocni: {
-      cs: "/cs/profese/pomocni-pracovnici.html",
-      de: "/de/berufe/hilfskraefte.html",
+      cs: "/cs/profese/pomocni-pracovnici",
+      de: "/de/berufe/hilfskraefte",
     },
   };
 
   function langHref(targetLang) {
     const entry = LANG_MAP[pageId];
     if (entry && entry[targetLang]) return entry[targetLang];
-    return targetLang === "de" ? "/de/" : "/cs/";
+    return targetLang === "de" ? "/de" : "/cs";
   }
 
   /* ---------- Header scroll + mobile nav ---------- */

@@ -337,9 +337,22 @@ function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
 }
 
+/** Odstraní .html z odkazů / canonical / og:url (Vercel cleanUrls). */
+function cleanUrlsInHtml(content) {
+  return String(content).replace(
+    /\b(href|content)=(["'])([^"']*?)\.html([?#][^"']*)?\2/gi,
+    (_, attr, quote, pathPart, suffix) =>
+      `${attr}=${quote}${pathPart}${suffix || ""}${quote}`
+  );
+}
+
 function write(file, content) {
   ensureDir(path.dirname(file));
-  fs.writeFileSync(file, content, "utf8");
+  const out =
+    file.endsWith(".html") || file.endsWith(".xml")
+      ? cleanUrlsInHtml(content)
+      : content;
+  fs.writeFileSync(file, out, "utf8");
 }
 
 function asset(rel) {
