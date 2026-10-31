@@ -393,81 +393,81 @@ function head({
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="${pagePath.includes("/profese/") || pagePath.includes("/berufe/") ? "../../" : "../"}css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>`;
 }
 
-function header(lang, pageId, depth = 1) {
-  // Same-language pages: relative within folder; cross-lang uses ../cs or ../de
-  const prefix = depth === 2 ? "../" : "./";
-  const otherRoot = depth === 2 ? "../../" : "../";
+/** Absolutní cesta stránky pro Vercel cleanUrls + trailingSlash. */
+function abs(lang, slug = "", query = "") {
+  const base = slug ? `/${lang}/${slug}/` : `/${lang}/`;
+  return query ? `${base}?${query}` : base;
+}
 
+function header(lang, pageId, depth = 1) {
   const links =
     lang === "cs"
       ? [
-          ["o-nas.html", "O mně", "about"],
-          ["pro-pracovniky.html", "Pro pracovníky", "workers"],
-          ["pro-firmy.html", "Pro firmy", "companies"],
-          ["profese/", "Profese", "professions"],
-          ["jak-spoluprace-funguje.html", "Jak to funguje", "process"],
-          ["kontakt.html", "Kontakt", "contact"],
+          ["o-nas", "O mně", "about"],
+          ["pro-pracovniky", "Pro pracovníky", "workers"],
+          ["pro-firmy", "Pro firmy", "companies"],
+          ["profese", "Profese", "professions"],
+          ["jak-spoluprace-funguje", "Jak to funguje", "process"],
+          ["kontakt", "Kontakt", "contact"],
         ]
       : [
-          ["ueber-uns.html", "Über mich", "about"],
-          ["fuer-unternehmen.html", "Für Unternehmen", "companies"],
-          ["berufe/", "Berufe", "professions"],
-          ["so-funktioniert-es.html", "Ablauf", "process"],
-          ["kontakt.html", "Kontakt", "contact"],
+          ["ueber-uns", "Über mich", "about"],
+          ["fuer-unternehmen", "Für Unternehmen", "companies"],
+          ["berufe", "Berufe", "professions"],
+          ["so-funktioniert-es", "Ablauf", "process"],
+          ["kontakt", "Kontakt", "contact"],
         ];
 
   const cta =
     lang === "cs"
-      ? { href: "kontakt.html?form=worker", label: "Registrovat se" }
-      : { href: "kontakt.html?form=company", label: "Personal anfragen" };
+      ? { href: abs("cs", "kontakt", "form=worker"), label: "Registrovat se" }
+      : { href: abs("de", "kontakt", "form=company"), label: "Personal anfragen" };
 
-  // Build lang switch via known map inlined as href using relative paths
   const langPairs = {
-    home: ["index.html", "index.html"],
-    companies: ["pro-firmy.html", "fuer-unternehmen.html"],
-    workers: ["pro-pracovniky.html", "fuer-fachkraefte.html"],
-    subcontractors: ["pro-subdodavatele.html", "fuer-nachunternehmer.html"],
-    professions: ["profese/", "berufe/"],
-    process: ["jak-spoluprace-funguje.html", "so-funktioniert-es.html"],
-    about: ["o-nas.html", "ueber-uns.html"],
-    references: ["reference.html", "referenzen.html"],
-    faq: ["faq.html", "faq.html"],
-    contact: ["kontakt.html", "kontakt.html"],
-    privacy: ["ochrana-osobnich-udaju.html", "datenschutz.html"],
-    cookies: ["cookies.html", "cookies.html"],
-    legal: ["pravni-upozorneni.html", "impressum.html"],
+    home: ["", ""],
+    companies: ["pro-firmy", "fuer-unternehmen"],
+    workers: ["pro-pracovniky", "fuer-fachkraefte"],
+    subcontractors: ["pro-subdodavatele", "fuer-nachunternehmer"],
+    professions: ["profese", "berufe"],
+    process: ["jak-spoluprace-funguje", "so-funktioniert-es"],
+    about: ["o-nas", "ueber-uns"],
+    references: ["reference", "referenzen"],
+    faq: ["faq", "faq"],
+    contact: ["kontakt", "kontakt"],
+    privacy: ["ochrana-osobnich-udaju", "datenschutz"],
+    cookies: ["cookies", "cookies"],
+    legal: ["pravni-upozorneni", "impressum"],
   };
 
-  let csHref = `${otherRoot}cs/`;
-  let deHref = `${otherRoot}de/`;
+  let csHref = abs("cs");
+  let deHref = abs("de");
   const pair = langPairs[pageId];
   if (pair) {
-    csHref = `${otherRoot}cs/${pair[0]}`;
-    deHref = `${otherRoot}de/${pair[1]}`;
+    csHref = abs("cs", pair[0]);
+    deHref = abs("de", pair[1]);
   } else {
-    // profession pages
     const prof = PROFESSIONS.find((x) => x.id === pageId);
     if (prof) {
-      csHref = `${otherRoot}cs/profese/${prof.cs.slug}.html`;
-      deHref = `${otherRoot}de/berufe/${prof.de.slug}.html`;
+      csHref = abs("cs", `profese/${prof.cs.slug}`);
+      deHref = abs("de", `berufe/${prof.de.slug}`);
     }
   }
 
   const navLinks = links
     .map(
-      ([href, label, id]) =>
-        `<a href="${prefix}${href}"${id === pageId ? ' aria-current="page"' : ""}>${label}</a>`
+      ([slug, label, id]) =>
+        `<a href="${abs(lang, slug)}"${id === pageId ? ' aria-current="page"' : ""}>${label}</a>`
     )
     .join("\n          ");
 
   return `
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="logo" href="${prefix}">
+      <a class="logo" href="${abs(lang)}">
         <span class="logo__brand">Václav <span>Kutiš</span></span>
         <span class="logo__sub">Kutis Personal · DACH</span>
       </a>
@@ -479,7 +479,7 @@ function header(lang, pageId, depth = 1) {
           <a href="${csHref}" class="${lang === "cs" ? "is-active" : ""}" hreflang="cs">CZ</a>
           <a href="${deHref}" class="${lang === "de" ? "is-active" : ""}" hreflang="de">DE</a>
         </div>
-        <a class="btn btn--primary btn--sm header-cta" href="${prefix}${cta.href}">${cta.label}</a>
+        <a class="btn btn--primary btn--sm header-cta" href="${cta.href}">${cta.label}</a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-label="${lang === "cs" ? "Otevřít menu" : "Menü öffnen"}">
           <span></span><span></span><span></span>
         </button>
@@ -488,14 +488,11 @@ function header(lang, pageId, depth = 1) {
   </header>
   <nav class="nav--mobile" aria-label="Mobile">
       ${navLinks}
-      <a class="btn btn--primary" href="${prefix}${cta.href}">${cta.label}</a>
+      <a class="btn btn--primary" href="${cta.href}">${cta.label}</a>
   </nav>`;
 }
 
 function footer(lang, depth = 1) {
-  const prefix = depth === 2 ? "../" : "./";
-  const otherRoot = depth === 2 ? "../../" : "../";
-
   if (lang === "cs") {
     return `
   <footer class="site-footer">
@@ -509,37 +506,37 @@ function footer(lang, depth = 1) {
         <div>
           <h3>Spolupráce</h3>
           <ul>
-            <li><a href="${prefix}pro-pracovniky.html">Pro pracovníky</a></li>
-            <li><a href="${prefix}pro-firmy.html">Pro firmy</a></li>
-            <li><a href="${prefix}pro-subdodavatele.html">Pro týmy</a></li>
-            <li><a href="${prefix}profese/">Profese</a></li>
-            <li><a href="${prefix}kontakt.html">Kontakt</a></li>
+            <li><a href="${abs("cs", "pro-pracovniky")}">Pro pracovníky</a></li>
+            <li><a href="${abs("cs", "pro-firmy")}">Pro firmy</a></li>
+            <li><a href="${abs("cs", "pro-subdodavatele")}">Pro týmy</a></li>
+            <li><a href="${abs("cs", "profese")}">Profese</a></li>
+            <li><a href="${abs("cs", "kontakt")}">Kontakt</a></li>
           </ul>
         </div>
         <div>
           <h3>O mně</h3>
           <ul>
-            <li><a href="${prefix}o-nas.html">Kdo jsem</a></li>
-            <li><a href="${prefix}jak-spoluprace-funguje.html">Jak to funguje</a></li>
-            <li><a href="${prefix}reference.html">Track record</a></li>
-            <li><a href="${prefix}faq.html">FAQ</a></li>
-            <li><a href="${prefix}kontakt.html">Kontakt</a></li>
+            <li><a href="${abs("cs", "o-nas")}">Kdo jsem</a></li>
+            <li><a href="${abs("cs", "jak-spoluprace-funguje")}">Jak to funguje</a></li>
+            <li><a href="${abs("cs", "reference")}">Track record</a></li>
+            <li><a href="${abs("cs", "faq")}">FAQ</a></li>
+            <li><a href="${abs("cs", "kontakt")}">Kontakt</a></li>
           </ul>
         </div>
         <div>
           <h3>Právní</h3>
           <ul>
-            <li><a href="${prefix}ochrana-osobnich-udaju.html">Ochrana osobních údajů</a></li>
-            <li><a href="${prefix}cookies.html">Cookies</a></li>
-            <li><a href="${prefix}pravni-upozorneni.html">Právní upozornění</a></li>
+            <li><a href="${abs("cs", "ochrana-osobnich-udaju")}">Ochrana osobních údajů</a></li>
+            <li><a href="${abs("cs", "cookies")}">Cookies</a></li>
+            <li><a href="${abs("cs", "pravni-upozorneni")}">Právní upozornění</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <p>&copy; <span data-year></span> Václav Kutiš · Kutis Personal</p>
         <div class="footer-legal">
-          <a href="${prefix}ochrana-osobnich-udaju.html">GDPR</a>
-          <a href="${otherRoot}de/impressum.html">Impressum (DE)</a>
+          <a href="${abs("cs", "ochrana-osobnich-udaju")}">GDPR</a>
+          <a href="${abs("de", "impressum")}">Impressum (DE)</a>
         </div>
       </div>
     </div>
@@ -558,37 +555,37 @@ function footer(lang, depth = 1) {
         <div>
           <h3>Zusammenarbeit</h3>
           <ul>
-            <li><a href="${prefix}fuer-unternehmen.html">Für Unternehmen</a></li>
-            <li><a href="${prefix}fuer-nachunternehmer.html">Teams &amp; Nachunternehmer</a></li>
-            <li><a href="${prefix}berufe/">Berufe</a></li>
-            <li><a href="${prefix}kontakt.html">Kontakt</a></li>
-            <li><a href="${prefix}fuer-fachkraefte.html">Für Fachkräfte</a></li>
+            <li><a href="${abs("de", "fuer-unternehmen")}">Für Unternehmen</a></li>
+            <li><a href="${abs("de", "fuer-nachunternehmer")}">Teams &amp; Nachunternehmer</a></li>
+            <li><a href="${abs("de", "berufe")}">Berufe</a></li>
+            <li><a href="${abs("de", "kontakt")}">Kontakt</a></li>
+            <li><a href="${abs("de", "fuer-fachkraefte")}">Für Fachkräfte</a></li>
           </ul>
         </div>
         <div>
           <h3>Über mich</h3>
           <ul>
-            <li><a href="${prefix}ueber-uns.html">Wer ich bin</a></li>
-            <li><a href="${prefix}so-funktioniert-es.html">Ablauf</a></li>
-            <li><a href="${prefix}referenzen.html">Track record</a></li>
-            <li><a href="${prefix}faq.html">FAQ</a></li>
-            <li><a href="${prefix}kontakt.html">Kontakt</a></li>
+            <li><a href="${abs("de", "ueber-uns")}">Wer ich bin</a></li>
+            <li><a href="${abs("de", "so-funktioniert-es")}">Ablauf</a></li>
+            <li><a href="${abs("de", "referenzen")}">Track record</a></li>
+            <li><a href="${abs("de", "faq")}">FAQ</a></li>
+            <li><a href="${abs("de", "kontakt")}">Kontakt</a></li>
           </ul>
         </div>
         <div>
           <h3>Rechtliches</h3>
           <ul>
-            <li><a href="${prefix}impressum.html">Impressum</a></li>
-            <li><a href="${prefix}datenschutz.html">Datenschutz</a></li>
-            <li><a href="${prefix}cookies.html">Cookies</a></li>
+            <li><a href="${abs("de", "impressum")}">Impressum</a></li>
+            <li><a href="${abs("de", "datenschutz")}">Datenschutz</a></li>
+            <li><a href="${abs("de", "cookies")}">Cookies</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <p>&copy; <span data-year></span> Václav Kutiš · Kutis Personal</p>
         <div class="footer-legal">
-          <a href="${prefix}datenschutz.html">Datenschutz</a>
-          <a href="${prefix}impressum.html">Impressum</a>
+          <a href="${abs("de", "datenschutz")}">Datenschutz</a>
+          <a href="${abs("de", "impressum")}">Impressum</a>
         </div>
       </div>
     </div>
@@ -596,28 +593,26 @@ function footer(lang, depth = 1) {
 }
 
 function mobileBar(lang, depth = 1) {
-  const prefix = depth === 2 ? "../" : "./";
   if (lang === "cs") {
     return `
   <div class="mobile-bar" aria-label="Rychlý kontakt">
     <a data-tel-link href="tel:"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.97.35 1.92.66 2.84a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.24-1.24a2 2 0 0 1 2.11-.45c.92.31 1.87.53 2.84.66A2 2 0 0 1 22 16.92z"/></svg>Zavolat</a>
     <a data-whatsapp href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.1.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.5-1-1-.9-1.7-1.2-2-.1-.2 0-.4.1-.5.1-.1.2-.3.3-.4.1-.1.2-.3.1-.4 0-.1-.6-1.4-.8-1.9-.3-.5-.7-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.9 3.5 2.3 1 2.3.7 2.7.7.4 0 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.2-1.3C8.7 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>WhatsApp</a>
-    <a href="${prefix}kontakt.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 8l8 5 8-5"/></svg>Poptávka</a>
+    <a href="${abs("cs", "kontakt")}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 8l8 5 8-5"/></svg>Poptávka</a>
   </div>`;
   }
   return `
   <div class="mobile-bar" aria-label="Schnellkontakt">
-    <a data-tel-link href="tel:"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.97.35 1.92.66 2.84a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.24-1.24a2 2 0 0 1 2.11-.45c.92.31 1.87.53 2.84.66A2 2 0 0 1 22 16.92z"/></svg>Anrufen</a>
+    <a data-tel-link href="tel:"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.97.35 1.92.66 2.84a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.24-1.24a2 2 0 0 1 22 16.92z"/></svg>Anrufen</a>
     <a data-whatsapp href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.1.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.5-1-1-.9-1.7-1.2-2-.1-.2 0-.4.1-.5.1-.1.2-.3.3-.4.1-.1.2-.3.1-.4 0-.1-.6-1.4-.8-1.9-.3-.5-.7-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.9 3.5 2.3 1 2.3.7 2.7.7.4 0 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.2-1.3C8.7 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>WhatsApp</a>
-    <a href="${prefix}kontakt.html?form=company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 8l8 5 8-5"/></svg>Anfragen</a>
+    <a href="${abs("de", "kontakt", "form=company")}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 8l8 5 8-5"/></svg>Anfragen</a>
   </div>`;
 }
 
 function scripts(depth = 1) {
-  const p = depth === 2 ? "../../" : "../";
   return `
-  <script src="${p}js/config.js"></script>
-  <script src="${p}js/site.js"></script>`;
+  <script src="/js/config.js"></script>
+  <script src="/js/site.js"></script>`;
 }
 
 function pageShell({
@@ -647,15 +642,12 @@ ${scripts(depth)}
 `;
 }
 
-// Hero image - unsplash construction (real photo, not AI)
-const HERO_IMG = "../assets/images/hero.jpg?v=4";
-const ABOUT_IMG = "../assets/images/about.jpg";
-const SITE_WORK_IMG = "../assets/images/site-work.jpg";
+const HERO_IMG = "/assets/images/hero.jpg?v=4";
+const ABOUT_IMG = "/assets/images/about.jpg";
+const SITE_WORK_IMG = "/assets/images/site-work.jpg";
 
-// For depth=2 pages (professions), paths need ../../
 function imgPath(file, depth = 1) {
-  const prefix = depth === 2 ? "../../" : "../";
-  return `${prefix}assets/images/${file}`;
+  return `/assets/images/${file}`;
 }
 
 /* ===================== PAGE CONTENTS ===================== */
@@ -819,6 +811,7 @@ module.exports = {
   write,
   ROOT,
   SITE,
+  abs,
   HERO_IMG,
   ABOUT_IMG,
   SITE_WORK_IMG,
