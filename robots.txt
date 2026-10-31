@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.kutispersonal.com/sitemap.xml

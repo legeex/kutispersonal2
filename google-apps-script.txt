@@ -1,30 +1,81 @@
 /**
- * ZDARMA – Google Apps Script (viz README)
- * Po úpravě: Nasadit → Spravovat nasazení → Upravit → Nová verze
+ * Kutis Personal – formuláře z webu
+ * Po změně: Nasadit → Spravovat nasazení → tužka → Nová verze → Nasadit
  */
 
-var EMAIL_PRIJEMCE = "vaclav.kutis99@gmail.com";
+var EMAIL_PRIJEMCE = "anfrage@kutispersonal.com";
 
-var PORADI_POLI = [
+var LABEL = {
+  "Typ formuláře": "Typ",
+  "Jazyk webu": "Jazyk",
+  "Stránka": "Stránka",
+  company: "Firma",
+  contact: "Kontakt",
+  name: "Jméno",
+  email: "E-mail",
+  phone: "Telefon",
+  cooperation: "Spolupráce",
+  message: "Poptávka",
+  profession: "Profese",
+  experience: "Praxe",
+  availability: "Dostupnost",
+  german: "Němčina",
+  note: "Poznámka",
+  project: "Projekt",
+  location: "Lokalita",
+  qualification: "Kvalifikace",
+  count: "Počet",
+  "Jméno a příjmení": "Jméno",
+  "Název firmy": "Firma",
+  "Kontaktní osoba": "Kontakt",
+  "E-mail": "E-mail",
+  Telefon: "Telefon",
+  Profese: "Profese",
+  Praxe: "Praxe",
+  "Jazykové znalosti": "Jazyk",
+  Země: "Země",
+  "Lokalita projektu": "Lokalita",
+  "Termín / dostupnost": "Termín",
+  "Forma spolupráce": "Spolupráce",
+  Poznámka: "Poznámka",
+};
+
+var PORADI = [
   "Typ formuláře",
   "Jazyk webu",
-  "Jméno a příjmení",
+  "company",
   "Název firmy",
+  "contact",
   "Kontaktní osoba",
+  "name",
+  "Jméno a příjmení",
+  "email",
   "E-mail",
+  "phone",
   "Telefon",
-  "Profese",
-  "Praxe",
-  "Jazykové znalosti",
-  "Země",
-  "Lokalita projektu",
-  "Termín / dostupnost",
+  "cooperation",
   "Forma spolupráce",
+  "message",
+  "profession",
+  "Profese",
+  "qualification",
+  "count",
+  "location",
+  "Lokalita projektu",
+  "availability",
+  "Termín / dostupnost",
+  "experience",
+  "Praxe",
+  "german",
+  "Jazykové znalosti",
+  "project",
+  "note",
   "Poznámka",
+  "Stránka",
 ];
 
-function escapeHtml(text) {
-  return String(text)
+function esc(text) {
+  return String(text == null ? "" : text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -32,43 +83,44 @@ function escapeHtml(text) {
     .replace(/\n/g, "<br>");
 }
 
-function ziskatRadky(payload) {
-  var radky = [];
-  var pouzite = {};
-
-  for (var i = 0; i < PORADI_POLI.length; i++) {
-    var klic = PORADI_POLI[i];
-    if (payload[klic] && String(payload[klic]).trim() !== "") {
-      radky.push({ label: klic, value: String(payload[klic]).trim() });
-      pouzite[klic] = true;
-    }
-  }
-
-  for (var key in payload) {
-    if (payload.hasOwnProperty(key) && !pouzite[key] && payload[key] !== "") {
-      radky.push({ label: key, value: String(payload[key]).trim() });
-    }
-  }
-
-  return radky;
+function labelOf(key) {
+  return LABEL[key] || key;
 }
 
-function badgeBarva(typFormulare) {
-  var t = String(typFormulare || "").toLowerCase();
-  if (t.indexOf("firma") !== -1) {
-    return { bg: "#1a3352", text: "#e8c96a", label: "Poptávka od firmy" };
+function rowsFrom(payload) {
+  var rows = [];
+  var used = {};
+  var i, key, val, lab;
+
+  for (i = 0; i < PORADI.length; i++) {
+    key = PORADI[i];
+    val = payload[key];
+    if (!val || String(val).trim() === "") continue;
+    lab = labelOf(key);
+    if (used[lab]) continue;
+    rows.push({ label: lab, value: String(val).trim(), key: key });
+    used[lab] = true;
   }
-  return { bg: "#1a3352", text: "#e8c96a", label: "Žádost uchazeče" };
+
+  for (key in payload) {
+    if (!payload.hasOwnProperty(key)) continue;
+    if (key === "subject" || used[labelOf(key)]) continue;
+    val = payload[key];
+    if (val === "" || val == null) continue;
+    lab = labelOf(key);
+    rows.push({ label: lab, value: String(val).trim(), key: key });
+    used[lab] = true;
+  }
+
+  return rows;
 }
 
-function vytvorHtmlEmail(payload) {
-  var subject = payload.subject || "Nová zpráva z webu – Václav Kutiš";
-  delete payload.subject;
+function isCompany(typ) {
+  return String(typ || "").toLowerCase().indexOf("firma") !== -1;
+}
 
-  var radky = ziskatRadky(payload);
-  var typ = payload["Typ formuláře"] || "";
-  var badge = badgeBarva(typ);
-  var cas = new Date().toLocaleString("cs-CZ", {
+function nowCs() {
+  return new Date().toLocaleString("cs-CZ", {
     timeZone: "Europe/Prague",
     day: "numeric",
     month: "numeric",
@@ -76,92 +128,116 @@ function vytvorHtmlEmail(payload) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
 
-  var rowsHtml = "";
-  for (var j = 0; j < radky.length; j++) {
-    var r = radky[j];
-    var isEmail = r.label === "E-mail";
-    var valueHtml = escapeHtml(r.value);
-    if (isEmail) {
-      valueHtml =
-        '<a href="mailto:' +
-        escapeHtml(r.value) +
-        '" style="color:#0c1a2e;font-weight:600;text-decoration:none;">' +
-        valueHtml +
-        "</a>";
-    }
+function valueHtml(row) {
+  var v = esc(row.value);
+  var k = String(row.key || row.label).toLowerCase();
+  if (k === "email" || row.label === "E-mail") {
+    return (
+      '<a href="mailto:' +
+      esc(row.value) +
+      '" style="color:#c4121a;font-weight:600;text-decoration:none;">' +
+      v +
+      "</a>"
+    );
+  }
+  if (k === "phone" || row.label === "Telefon") {
+    var tel = String(row.value).replace(/\s+/g, "");
+    return (
+      '<a href="tel:' +
+      esc(tel) +
+      '" style="color:#111;font-weight:600;text-decoration:none;">' +
+      v +
+      "</a>"
+    );
+  }
+  return v;
+}
 
-    rowsHtml +=
-      '<tr>' +
-      '<td style="padding:14px 16px;border-bottom:1px solid #eef0f4;width:38%;vertical-align:top;font-size:12px;font-weight:700;color:#8b95a5;text-transform:uppercase;letter-spacing:0.06em;">' +
-      escapeHtml(r.label) +
+function buildEmail(payload) {
+  var subject = payload.subject || "Nová zpráva – Kutis Personal";
+  delete payload.subject;
+
+  var typ = payload["Typ formuláře"] || "";
+  var firm = isCompany(typ);
+  var badge = firm ? "Firemní poptávka" : "Registrace";
+  var rows = rowsFrom(payload);
+  var cas = nowCs();
+
+  var table = "";
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var last = i === rows.length - 1;
+    table +=
+      "<tr>" +
+      '<td style="padding:12px 0;width:34%;vertical-align:top;font:600 11px/1.4 Helvetica,Arial,sans-serif;color:#888;text-transform:uppercase;letter-spacing:.06em;border-bottom:' +
+      (last ? "0" : "1px solid #eee") +
+      ';">' +
+      esc(r.label) +
       "</td>" +
-      '<td style="padding:14px 16px;border-bottom:1px solid #eef0f4;font-size:15px;color:#2d3544;line-height:1.5;">' +
-      valueHtml +
+      '<td style="padding:12px 0 12px 16px;vertical-align:top;font:400 15px/1.55 Helvetica,Arial,sans-serif;color:#111;border-bottom:' +
+      (last ? "0" : "1px solid #eee") +
+      ';">' +
+      valueHtml(r) +
       "</td>" +
       "</tr>";
   }
 
   var html =
-    '<!DOCTYPE html><html><head><meta charset="UTF-8"></head>' +
-    '<body style="margin:0;padding:0;background-color:#eef0f4;font-family:Helvetica,Arial,sans-serif;">' +
-    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#eef0f4;padding:32px 16px;">' +
-    "<tr><td align=\"center\">" +
-    '<table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(12,26,46,0.12);">' +
-    /* Header */
-    '<tr><td style="background:linear-gradient(135deg,#0c1a2e 0%,#1a3352 100%);padding:28px 32px;">' +
-    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>' +
-    '<td style="font-size:11px;font-weight:700;color:#e8c96a;letter-spacing:0.14em;text-transform:uppercase;">DACH · Propojení</td>' +
-    "</tr><tr>" +
-    '<td style="padding-top:10px;font-size:24px;font-weight:400;color:#ffffff;font-family:Georgia,\'Times New Roman\',serif;">Nová zpráva z webu</td>' +
-    "</tr><tr>" +
-    '<td style="padding-top:6px;font-size:14px;color:rgba(255,255,255,0.75);">Václav Kutiš</td>' +
-    "</tr></table></td></tr>" +
-    /* Badge */
-    '<tr><td style="padding:24px 32px 8px;">' +
-    '<span style="display:inline-block;padding:6px 14px;background:' +
-    badge.bg +
-    ";color:" +
-    badge.text +
-    ';font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:100px;border:1px solid rgba(201,162,39,0.35);">' +
-    badge.label +
+    '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"></head>' +
+    '<body style="margin:0;padding:0;background:#f3f3f3;font-family:Helvetica,Arial,sans-serif;">' +
+    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f3f3;padding:28px 12px;">' +
+    '<tr><td align="center">' +
+    '<table role="presentation" width="560" cellspacing="0" cellpadding="0" style="max-width:560px;width:100%;background:#fff;border-radius:4px;overflow:hidden;border:1px solid #e6e6e6;">' +
+    /* top bar */
+    '<tr><td style="height:4px;background:#c4121a;font-size:0;line-height:0;">&nbsp;</td></tr>' +
+    /* header */
+    '<tr><td style="padding:28px 32px 20px;background:#111;">' +
+    '<div style="font:700 11px/1 Helvetica,Arial,sans-serif;color:#c4121a;letter-spacing:.16em;text-transform:uppercase;">Kutis Personal</div>' +
+    '<div style="margin-top:10px;font:700 22px/1.25 Helvetica,Arial,sans-serif;color:#fff;">Nová zpráva z webu</div>' +
+    '<div style="margin-top:6px;font:400 13px/1.4 Helvetica,Arial,sans-serif;color:#aaa;">Václav Kutiš</div>' +
+    "</td></tr>" +
+    /* badge */
+    '<tr><td style="padding:22px 32px 0;">' +
+    '<span style="display:inline-block;padding:7px 12px;background:' +
+    (firm ? "#111" : "#c4121a") +
+    ";color:#fff;font:700 10px/1 Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;\">" +
+    esc(badge) +
     "</span></td></tr>" +
-    /* Table */
-    '<tr><td style="padding:8px 16px 24px;">' +
-    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #eef0f4;border-radius:8px;overflow:hidden;">' +
-    rowsHtml +
+    /* content */
+    '<tr><td style="padding:18px 32px 28px;">' +
+    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0">' +
+    table +
     "</table></td></tr>" +
-    /* Footer */
-    '<tr><td style="background:#f7f8fa;padding:18px 32px;border-top:1px solid #eef0f4;">' +
-    '<p style="margin:0;font-size:12px;color:#8b95a5;line-height:1.5;">Odesláno ' +
-    escapeHtml(cas) +
-    " · web Václav Kutiš</p>" +
+    /* footer */
+    '<tr><td style="padding:16px 32px;background:#fafafa;border-top:1px solid #eee;">' +
+    '<p style="margin:0;font:400 12px/1.5 Helvetica,Arial,sans-serif;color:#999;">Odesláno ' +
+    esc(cas) +
+    " · kutispersonal.com</p>" +
     "</td></tr>" +
     "</table></td></tr></table></body></html>";
 
-  return { subject: subject, html: html, plain: vytvorPlainEmail(radky, cas, subject) };
-}
-
-function vytvorPlainEmail(radky, cas, subject) {
-  var lines = ["NOVÁ ZPRÁVA Z WEBU – VÁCLAV KUTIŠ", ""];
-  for (var i = 0; i < radky.length; i++) {
-    lines.push(radky[i].label + ": " + radky[i].value);
-    lines.push("");
+  var plain = ["NOVÁ ZPRÁVA – KUTIS PERSONAL", ""];
+  for (i = 0; i < rows.length; i++) {
+    plain.push(rows[i].label + ": " + rows[i].value);
+    plain.push("");
   }
-  lines.push("Odesláno: " + cas);
-  return lines.join("\n");
+  plain.push("Odesláno: " + cas);
+
+  return { subject: subject, html: html, plain: plain.join("\n") };
 }
 
 function doPost(e) {
   try {
     var payload = JSON.parse(e.postData.contents);
-    var email = vytvorHtmlEmail(payload);
+    var mail = buildEmail(payload);
 
     MailApp.sendEmail({
       to: EMAIL_PRIJEMCE,
-      subject: email.subject,
-      htmlBody: email.html,
-      body: email.plain,
+      subject: mail.subject,
+      htmlBody: mail.html,
+      body: mail.plain,
     });
 
     return ContentService.createTextOutput(
@@ -169,7 +245,7 @@ function doPost(e) {
     ).setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService.createTextOutput(
-      JSON.stringify({ success: false, message: err.toString() })
+      JSON.stringify({ success: false, message: String(err) })
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
