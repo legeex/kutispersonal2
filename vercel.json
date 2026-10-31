@@ -1,4 +1,36 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/pro-firmy",
+      "destination": "/cs/pro-firmy/",
+      "permanent": true
+    },
+    {
+      "source": "/pro-firmy/",
+      "destination": "/cs/pro-firmy/",
+      "permanent": true
+    },
+    {
+      "source": "/kontakt",
+      "destination": "/cs/kontakt/",
+      "permanent": true
+    },
+    {
+      "source": "/kontakt/",
+      "destination": "/cs/kontakt/",
+      "permanent": true
+    },
+    {
+      "source": "/fuer-unternehmen",
+      "destination": "/de/fuer-unternehmen/",
+      "permanent": true
+    },
+    {
+      "source": "/fuer-unternehmen/",
+      "destination": "/de/fuer-unternehmen/",
+      "permanent": true
+    }
+  ]
 }

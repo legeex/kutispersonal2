@@ -339,14 +339,16 @@ function buildDe() {
 }
 
 function cleanPath(p) {
-  return String(p).replace(/\.html$/i, "").replace(/\/$/, "") || "/";
+  let s = String(p).replace(/\.html$/i, "");
+  if (s !== "/" && !s.endsWith("/")) s += "/";
+  return s;
 }
 
 function rootFiles() {
   write(
     `${ROOT}/index.html`,
     `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Václav Kutiš</title><script>!function(){var l=(navigator.language||navigator.userLanguage||"").toLowerCase();location.replace(l.indexOf("de")===0?"/de":"/cs")}();</script></head><body><p>Redirecting… <a href="/de">Deutsch</a> · <a href="/cs">Čeština</a></p></body></html>`
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Václav Kutiš</title><script>!function(){var l=(navigator.language||navigator.userLanguage||"").toLowerCase();location.replace(l.indexOf("de")===0?"/de/":"/cs/")}();</script></head><body><p>Redirecting… <a href="/de/">Deutsch</a> · <a href="/cs/">Čeština</a></p></body></html>`
   );
   write(`${ROOT}/robots.txt`, `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
   const urls = [
