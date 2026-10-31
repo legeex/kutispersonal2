@@ -1220,11 +1220,18 @@ body:not([data-page="home"]) .nav a[aria-current="page"] {
 }
 
 body:not([data-page="home"]) .lang-switch {
-  border-color: var(--line);
+  border-color: var(--ink);
+  background: #fff;
 }
 
 body:not([data-page="home"]) .lang-switch a {
-  color: var(--muted);
+  color: var(--ink);
+}
+
+body:not([data-page="home"]) .lang-switch a.is-active,
+body:not([data-page="home"]) .lang-switch a:hover {
+  background: var(--red);
+  color: #fff;
 }
 
 body:not([data-page="home"]) .nav-toggle span {
@@ -1484,9 +1491,14 @@ body:not([data-page="home"]) .page-hero {
   }
 }
 
-.site-footer .logo__brand {
+body .site-footer .logo__brand,
+body:not([data-page="home"]) .site-footer .logo__brand {
   margin-bottom: 0.85rem;
   color: #fff;
+}
+
+body .site-footer .logo__brand span {
+  color: var(--red);
 }
 
 .site-footer h3 {
