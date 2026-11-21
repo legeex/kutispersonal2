@@ -21,6 +21,9 @@ const FORMS = {
     badge: 'Firemní poptávka',
     contact: 'kontakt',
     title: ['firma', 'gewerk'],
+    head: 'firma', sub: 'name',
+    chips: ['gewerk', 'anzahl', 'start', 'ort'],
+    text: 'nachricht', lang: 'DE',
     fields: [
       ['gewerk', 'Profese', true],
       ['anzahl', 'Počet', true],
@@ -37,6 +40,9 @@ const FORMS = {
     badge: 'Registrace',
     contact: 'email',
     title: ['jmeno', 'obor'],
+    head: 'jmeno', sub: 'typ',
+    chips: ['obor', 'praxe', 'nemcina'],
+    text: 'poznamka', lang: 'CZ',
     fields: [
       ['hledam', 'Hledá', false],
       ['typ', 'Jsem', true],
@@ -83,9 +89,75 @@ function transport() {
   });
 }
 
-function html(def, rows, when, page) {
-  const tr = rows.map(([label, value, link]) => `<tr><td style="padding:10px 0;width:34%;vertical-align:top;font:600 11px/1.4 Helvetica,Arial,sans-serif;color:#888;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #eee">${esc(label)}</td><td style="padding:10px 0 10px 16px;vertical-align:top;font:400 15px/1.55 Helvetica,Arial,sans-serif;color:#111;border-bottom:1px solid #eee">${link ? `<a href="${esc(link)}" style="color:#B4470A;font-weight:600;text-decoration:none">${esc(value)}</a>` : esc(value).replace(/\n/g, '<br>')}</td></tr>`).join('');
-  return `<!doctype html><html><body style="margin:0;background:#f3f2ee;padding:24px 12px;font-family:Helvetica,Arial,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center"><table role="presentation" width="560" cellspacing="0" cellpadding="0" style="max-width:560px;width:100%;background:#fff;border:1px solid #e6e3da;border-radius:6px;overflow:hidden"><tr><td style="height:4px;background:#F26A1B"></td></tr><tr><td style="padding:24px 28px;background:#0E1A2B"><div style="font:700 11px/1 Helvetica,Arial,sans-serif;color:#F26A1B;letter-spacing:.16em;text-transform:uppercase">Kutis Personal</div><div style="margin-top:10px;font:700 22px/1.25 Helvetica,Arial,sans-serif;color:#fff">${esc(def.badge)}</div></td></tr><tr><td style="padding:16px 28px 24px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0">${tr}</table></td></tr><tr><td style="padding:14px 28px;background:#fafaf7;border-top:1px solid #eee;font:12px/1.5 Helvetica,Arial,sans-serif;color:#999">Odesláno ${esc(when)} · ${esc(page)}</td></tr></table></td></tr></table></body></html>`;
+const F = "font-family:Helvetica,Arial,sans-serif;";
+
+function button(href, label, primary) {
+  const bg = primary ? '#F26A1B' : '#ffffff';
+  const fg = primary ? '#0E1A2B' : '#0E1A2B';
+  const bd = primary ? '#F26A1B' : '#C9C4B8';
+  return `<td style="padding:0 8px 8px 0"><a href="${esc(href)}" style="display:inline-block;padding:12px 18px;background:${bg};border:1px solid ${bd};border-radius:6px;${F}font-size:14px;font-weight:700;color:${fg};text-decoration:none">${esc(label)}</a></td>`;
+}
+
+function html(def, values, rows, when, page, subject) {
+  const head = values[def.head] || '—';
+  const sub = [values[def.sub], def === FORMS.anfrage ? 'Firemní poptávka' : 'Registrace z CZ webu'].filter(Boolean).join(' · ');
+  const chipText = (k, v) => k === 'anzahl' ? `${v} ${v === '1' ? 'osoba' : 'osob'}` : k === 'nemcina' ? `Němčina: ${v.toLowerCase()}` : k === 'praxe' ? `Praxe: ${v.toLowerCase()}` : v;
+  const chips = def.chips.filter((k) => values[k]).map((k) => chipText(k, values[k]))
+    .map((v) => `<span style="display:inline-block;margin:0 6px 6px 0;padding:6px 10px;background:#F5F4EF;border:1px solid #E6E3DA;border-radius:999px;${F}font-size:13px;font-weight:600;color:#0E1A2B">${esc(v)}</span>`).join('');
+
+  // quick actions
+  const all = Object.values(values).join(' ');
+  const email = (all.match(/[^\s@<>,;"]+@[^\s@<>,;"]+\.[^\s@<>,;"]{2,}/) || [''])[0];
+  const phoneRaw = Object.values(values).find((v) => /^[+\d][\d\s/()-]{6,}$/.test(v)) || '';
+  const phone = phoneRaw.replace(/[^\d+]/g, '');
+  let actions = '';
+  if (phone) {
+    actions += button('tel:' + phone, '📞 Zavolat', true);
+    actions += button('https://wa.me/' + phone.replace(/^\+/, '').replace(/^00/, ''), 'WhatsApp', false);
+  }
+  if (email) actions += button('mailto:' + email + '?subject=' + encodeURIComponent('Re: ' + subject), '✉️ Odpovědět e-mailem', !phone);
+
+  const skip = new Set([def.head, def.text, ...def.chips]);
+  const detail = rows.filter((r) => !skip.has(r.key)).map((r, i, arr) => `<tr>
+    <td style="padding:11px 0;width:38%;vertical-align:top;border-bottom:${i === arr.length - 1 ? '0' : '1px solid #EEEBE3'};${F}font-size:12px;font-weight:600;color:#8A8F98;text-transform:uppercase;letter-spacing:.05em">${esc(r.label)}</td>
+    <td style="padding:11px 0 11px 12px;vertical-align:top;border-bottom:${i === arr.length - 1 ? '0' : '1px solid #EEEBE3'};${F}font-size:15px;color:#0E1A2B">${r.link ? `<a href="${esc(r.link)}" style="color:#B4470A;font-weight:700;text-decoration:none">${esc(r.value)}</a>` : esc(r.value)}</td></tr>`).join('');
+
+  const msg = values[def.text] ? `<tr><td style="padding:4px 28px 8px">
+      <div style="${F}font-size:12px;font-weight:600;color:#8A8F98;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">${def === FORMS.anfrage ? 'Zpráva' : 'Poznámka'}</div>
+      <div style="padding:14px 16px;background:#F5F4EF;border-left:3px solid #F26A1B;border-radius:4px;${F}font-size:15px;line-height:1.6;color:#0E1A2B">${esc(values[def.text]).replace(/\n/g, '<br>')}</div>
+    </td></tr>` : '';
+
+  const pre = [head, ...def.chips.map((k) => values[k]).filter(Boolean)].join(' · ');
+  return `<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(subject)}</title></head>
+<body style="margin:0;padding:0;background:#ECEAE4">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(pre)}</div>
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#ECEAE4;padding:28px 12px"><tr><td align="center">
+<table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #DEDAD0">
+  <tr><td style="background:#0E1A2B;padding:20px 28px">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
+      <td style="vertical-align:middle"><table role="presentation" cellspacing="0" cellpadding="0"><tr>
+        <td style="width:32px;height:32px;background:#F5F4EF;border-radius:5px;text-align:center;vertical-align:middle"><div style="width:12px;height:12px;background:#F26A1B;margin:0 auto"></div></td>
+        <td style="padding-left:10px;${F}line-height:1"><div style="font-size:16px;font-weight:800;color:#ffffff;letter-spacing:.03em">KUTIS</div><div style="font-size:9px;font-weight:600;color:#A9B1BD;letter-spacing:.32em;margin-top:2px">PERSONAL</div></td>
+      </tr></table></td>
+      <td align="right" style="vertical-align:middle"><span style="display:inline-block;padding:6px 10px;background:#F26A1B;border-radius:4px;${F}font-size:11px;font-weight:800;color:#0E1A2B;letter-spacing:.08em;text-transform:uppercase">${esc(def.badge)} · ${esc(def.lang)}</span></td>
+    </tr></table>
+  </td></tr>
+  <tr><td style="padding:28px 28px 6px">
+    <div style="${F}font-size:26px;line-height:1.2;font-weight:800;color:#0E1A2B">${esc(head)}</div>
+    <div style="${F}font-size:14px;color:#555B66;margin-top:6px">${esc(sub)}</div>
+  </td></tr>
+  ${chips ? `<tr><td style="padding:12px 28px 4px">${chips}</td></tr>` : ''}
+  ${actions ? `<tr><td style="padding:14px 28px 10px"><table role="presentation" cellspacing="0" cellpadding="0"><tr>${actions}</tr></table></td></tr>` : ''}
+  ${msg}
+  <tr><td style="padding:10px 28px 18px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0">${detail}</table></td></tr>
+  <tr><td style="padding:16px 28px;background:#F5F4EF;border-top:1px solid #E6E3DA;${F}font-size:12px;line-height:1.6;color:#8A8F98">
+    Přijato ${esc(when)} · z webu kutispersonal.com<br>
+    <span style="color:#A9AEB6">${esc(page)}</span>
+  </td></tr>
+</table>
+<div style="${F}font-size:11px;color:#A9AEB6;margin-top:14px">Automatická zpráva z formuláře na webu Kutis Personal</div>
+</td></tr></table>
+</body></html>`;
 }
 
 module.exports = async function handler(req, res) {
@@ -144,7 +216,7 @@ module.exports = async function handler(req, res) {
     let link = '';
     if (isEmail(v)) link = 'mailto:' + v;
     else if (/^[+\d][\d\s/()-]{6,}$/.test(v)) link = 'tel:' + v.replace(/[^\d+]/g, '');
-    rows.push([label, v, link]);
+    rows.push({ key, label, value: v, link });
   }
   const when = new Date().toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
   const page = cleanLine(req.headers.referer || 'kutispersonal.com');
@@ -158,8 +230,8 @@ module.exports = async function handler(req, res) {
       to: MAIL_TO,
       replyTo: visitorEmail || undefined,
       subject,
-      text: rows.map(([l, v]) => `${l}: ${v}`).join('\n') + `\n\nOdesláno: ${when} · ${page}`,
-      html: html(def, rows, when, page),
+      text: rows.map((r) => `${r.label}: ${r.value}`).join('\n') + `\n\nOdesláno: ${when} · ${page}`,
+      html: html(def, values, rows, when, page, subject),
     });
   } catch (e) {
     console.error('mail failed:', e && e.message);
