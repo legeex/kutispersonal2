@@ -65,6 +65,10 @@ a{color:#0E1A2B}a:hover{color:#B4470A}
 button[disabled]{opacity:.6;cursor:wait}
 :focus-visible{outline:3px solid rgba(242,106,27,.55);outline-offset:2px}
 html{scroll-behavior:smooth}
+/* short pages (forms): keep footer at the bottom, contact box right under the intro */
+.kp-layout{min-height:calc(100vh - 141px);box-sizing:border-box;grid-template-rows:auto 1fr}
+.kp-layout > aside{align-self:start}
+@media (max-width: 900px){.kp-layout{grid-template-rows:none;min-height:0}}
 .kp-legal{overflow-wrap:break-word;hyphens:auto}
 .kp-legal h1,.kp-legal h2,.kp-legal h3{hyphens:manual}
 .kp-legal a{overflow-wrap:anywhere}
