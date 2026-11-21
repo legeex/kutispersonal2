@@ -40,7 +40,7 @@ python3 -m http.server 8080
 Každý push do `main` Vercel automaticky nasadí. Nastavení projektu: Framework **Other**, bez build command, root `.`.
 
 ## SEO po spuštění
-1. Google Search Console: ověřit doménu a odeslat `https://kutispersonal.com/sitemap.xml`.
+1. Google Search Console: ověřit doménu a odeslat `https://www.kutispersonal.com/sitemap.xml`.
 2. Google Business Profile + recenze od zákazníků.
 3. Zpětné odkazy: Auftragsbank.de, wlw.de, LinkedIn, weby partnerů.
 4. Každý měsíc nový článek nebo stránka.
