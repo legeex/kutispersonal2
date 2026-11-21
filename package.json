@@ -1,0 +1,7 @@
+{
+  "name": "kutispersonal-web",
+  "private": true,
+  "version": "1.0.0",
+  "engines": { "node": ">=20" },
+  "dependencies": { "nodemailer": "^10.6.1" }
+}
