@@ -79,14 +79,7 @@
   var anzMap = { '1 Person': '1', '2–3 Personen': '2–3', '4–8 Personen': '4–8', 'Team 8+': 'mehr als 8' };
   if (anz) prefill('anzahl', anzMap[anz] || anz);
 
-  /* ---------- forms -> Google Apps Script (sends the e-mail) ---------- */
-  var GAS_URL = 'https://script.google.com/macros/s/AKfycbzC1cvlEk_5ea2Pw4Le3OO8XnBGBy-UHkl0tvbhjeGRanBOgB2oZIapkDczp6MuNrxI/exec';
-  var LABELS = {
-    anfrage: { gewerk: 'Profese', anzahl: 'Počet', start: 'Termín', ort: 'Lokalita', firma: 'Firma',
-               name: 'Kontaktní osoba', kontakt: 'Telefon / e-mail', nachricht: 'Poptávka' },
-    registrace: { hledam: 'Hledá', typ: 'Jsem', obor: 'Profese', praxe: 'Praxe', nemcina: 'Němčina',
-                  jmeno: 'Jméno', telefon: 'Telefon', email: 'E-mail', poznamka: 'Poznámka' }
-  };
+  /* ---------- forms -> /api/send (Vercel funkce posílá e-mail) ---------- */
   var isLive = /(^|\.)kutispersonal\.com$/.test(window.location.hostname) || /\.vercel\.app$/.test(window.location.hostname) ||
                window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
@@ -95,13 +88,14 @@
     form.hidden = true;
     if (box) { box.hidden = false; box.focus(); box.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
   };
+  if (params.get('sent') === '1') document.querySelectorAll('.js-form').forEach(showSuccess);
 
   document.querySelectorAll('.js-form').forEach(function (form) {
-    var started = Date.now();
+    var ts = form.querySelector('[name="ts"]');
+    if (ts) ts.value = String(Date.now());
     var err = form.querySelector('.js-error');
     var btn = form.querySelector('button[type="submit"]');
     var btnText = btn ? btn.textContent : '';
-    var kind = form.dataset.form;
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -111,33 +105,17 @@
         form.reportValidity();
         return;
       }
-      var hp = form.querySelector('[name="website"]');
-      if ((hp && hp.value) || Date.now() - started < 3000) { showSuccess(form); return; } // bots
-      if (!isLive) { showSuccess(form); return; } // design preview outside the real site
-
-      var company = kind === 'anfrage';
-      var payload = {
-        subject: company ? 'Neue Firmenanfrage – Kutis Personal' : 'Nová registrace pracovníka/partnera – Kutis Personal',
-        'Typ formuláře': company ? 'Firma' : 'Pracovník / partner',
-        'Jazyk webu': lang === 'de' ? 'Němčina' : 'Čeština',
-        'Stránka': window.location.pathname
-      };
-      var map = LABELS[kind] || {};
-      new FormData(form).forEach(function (value, key) {
-        if (!map[key] || String(value).trim() === '') return;
-        payload[map[key]] = String(value).trim().slice(0, 3000);
-      });
-
+      if (!isLive) { showSuccess(form); return; } // náhled mimo web
       if (btn) { btn.disabled = true; btn.textContent = T.sending; }
-      fetch(GAS_URL, {
+      fetch(form.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
+        body: new URLSearchParams(new FormData(form)).toString(),
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
       }).then(function (r) {
-        return r.json().then(function (j) { return j && j.success !== false; }, function () { return r.ok; });
-      }).then(function (ok) {
-        if (!ok) throw new Error('failed');
-        showSuccess(form);
+        return r.json().catch(function () { return { ok: false }; });
+      }).then(function (res) {
+        if (res && res.ok) { showSuccess(form); return; }
+        throw new Error('failed');
       }).catch(function () {
         if (err) { err.textContent = T.failed; err.hidden = false; }
       }).then(function () {
