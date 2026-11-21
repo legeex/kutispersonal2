@@ -1,36 +1,228 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": true,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
-      "source": "/pro-firmy",
-      "destination": "/cs/pro-firmy/",
+      "source": "/de(/|\\.html)?",
+      "destination": "/",
       "permanent": true
     },
     {
-      "source": "/pro-firmy/",
-      "destination": "/cs/pro-firmy/",
+      "source": "/de/index(/|\\.html)?",
+      "destination": "/",
       "permanent": true
     },
     {
-      "source": "/kontakt",
-      "destination": "/cs/kontakt/",
+      "source": "/de/fuer-unternehmen(/|\\.html)?",
+      "destination": "/",
       "permanent": true
     },
     {
-      "source": "/kontakt/",
-      "destination": "/cs/kontakt/",
+      "source": "/de/fuer-nachunternehmer(/|\\.html)?",
+      "destination": "/cz/",
       "permanent": true
     },
     {
-      "source": "/fuer-unternehmen",
-      "destination": "/de/fuer-unternehmen/",
+      "source": "/de/fuer-fachkraefte(/|\\.html)?",
+      "destination": "/cz/",
       "permanent": true
     },
     {
-      "source": "/fuer-unternehmen/",
-      "destination": "/de/fuer-unternehmen/",
+      "source": "/de/so-funktioniert-es(/|\\.html)?",
+      "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/de/ueber-uns(/|\\.html)?",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/de/referenzen(/|\\.html)?",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/de/faq(/|\\.html)?",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/de/kontakt(/|\\.html)?",
+      "destination": "/anfrage.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/impressum(/|\\.html)?",
+      "destination": "/impressum.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/datenschutz(/|\\.html)?",
+      "destination": "/datenschutz.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/cookies(/|\\.html)?",
+      "destination": "/datenschutz.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe(/|\\.html)?",
+      "destination": "/subunternehmer/",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/index(/|\\.html)?",
+      "destination": "/subunternehmer/",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/dachdecker(/|\\.html)?",
+      "destination": "/subunternehmer/dachdecker.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/klempner(/|\\.html)?",
+      "destination": "/subunternehmer/klempner.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/elektriker(/|\\.html)?",
+      "destination": "/subunternehmer/elektriker.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/installateure(/|\\.html)?",
+      "destination": "/subunternehmer/heizung-sanitaer.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/trockenbauer(/|\\.html)?",
+      "destination": "/subunternehmer/trockenbau.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/maler(/|\\.html)?",
+      "destination": "/subunternehmer/maler.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/schweisser(/|\\.html)?",
+      "destination": "/subunternehmer/metallbau-schweissen.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/schlosser(/|\\.html)?",
+      "destination": "/subunternehmer/metallbau-schweissen.html",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/daemmer(/|\\.html)?",
+      "destination": "/subunternehmer/fassade.html",
+      "permanent": true
+    },
+    {
+      "source": "/cs(/|\\.html)?",
+      "destination": "/cz/",
+      "permanent": true
+    },
+    {
+      "source": "/cs/index(/|\\.html)?",
+      "destination": "/cz/",
+      "permanent": true
+    },
+    {
+      "source": "/cs/kontakt(/|\\.html)?",
+      "destination": "/cz/registrace.html",
+      "permanent": true
+    },
+    {
+      "source": "/cs/pro-pracovniky(/|\\.html)?",
+      "destination": "/cz/registrace.html",
+      "permanent": true
+    },
+    {
+      "source": "/cs/pro-subdodavatele(/|\\.html)?",
+      "destination": "/cz/",
+      "permanent": true
+    },
+    {
+      "source": "/cs/pro-firmy(/|\\.html)?",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/cs/ochrana-osobnich-udaju(/|\\.html)?",
+      "destination": "/cz/ochrana-udaju.html",
+      "permanent": true
+    },
+    {
+      "source": "/cs/pravni-upozorneni(/|\\.html)?",
+      "destination": "/cz/provozovatel.html",
+      "permanent": true
+    },
+    {
+      "source": "/cs/cookies(/|\\.html)?",
+      "destination": "/cz/ochrana-udaju.html",
+      "permanent": true
+    },
+    {
+      "source": "/pro-firmy(/|\\.html)?",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/kontakt(/|\\.html)?",
+      "destination": "/cz/registrace.html",
+      "permanent": true
+    },
+    {
+      "source": "/fuer-unternehmen(/|\\.html)?",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/de/berufe/:path*",
+      "destination": "/subunternehmer/",
+      "permanent": true
+    },
+    {
+      "source": "/de/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/cs/:path*",
+      "destination": "/cz/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(fonts|img)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
